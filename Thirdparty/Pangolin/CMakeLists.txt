@@ -5,6 +5,7 @@ set(PANGOLIN_VERSION_MINOR 5)
 set(PANGOLIN_VERSION ${PANGOLIN_VERSION_MAJOR}.${PANGOLIN_VERSION_MINOR})
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/")
+set(PANGOLIN_BASE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # Platform configuration vars
 include(SetPlatformVars)
@@ -16,7 +17,8 @@ SET(CPACK_PACKAGE_VERSION_MINOR ${PANGOLIN_VERSION_MINOR})
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
 include(CPack)
 
-option( BUILD_EXAMPLES "Build Examples" ON )
+option( BUILD_EXAMPLES "Build Examples" OFF )
+
 
 if(_WIN_)
     option( BUILD_SHARED_LIBS    "Build Shared Library" OFF)
@@ -90,7 +92,7 @@ add_custom_target(uninstall
 
 add_subdirectory("external")
 add_subdirectory("src")
-add_subdirectory("test")
+#add_subdirectory("test")
 
 if(BUILD_EXAMPLES)
   set(Pangolin_DIR ${Pangolin_BINARY_DIR}/src)

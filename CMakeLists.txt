@@ -10,6 +10,7 @@ ENDIF()
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -W0 -MT -bigobj")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W0 -MT -bigobj")
 
+
 # Check C++11 or C++0x support
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
@@ -30,30 +31,23 @@ endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
-#find_package(OpenCV 3.0 QUIET)
-#if(NOT OpenCV_FOUND)
-#   find_package(OpenCV 2.4.3 QUIET)
-#   if(NOT OpenCV_FOUND)
-#      message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
-#   endif()
-#endif()
-
 find_package(OpenCV REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(Pangolin REQUIRED)
-#find_package(Eigen3 3.1.0 REQUIRED)
-#find_package(Pangolin REQUIRED)
+find_package(OpenGL REQUIRED)
 
 include_directories(
 ${PROJECT_SOURCE_DIR}
 ${PROJECT_SOURCE_DIR}/include
 ${EIGEN3_INCLUDE_DIR}
-${Pangolin_INCLUDE_DIRS}
+${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2
+${PROJECT_SOURCE_DIR}/Thirdparty/g2o
+${OPENGL_INCLUDE_DIR}
 ${PROJECT_SOURCE_DIR}/Thirdparty/Pangolin/include
+${PROJECT_SOURCE_DIR}/Thirdparty/Pangolin/external/glew/include
+${PROJECT_SOURCE_DIR}/Thirdparty/Pangolin/external/libjpeg/include
+${PROJECT_SOURCE_DIR}/Thirdparty/Pangolin/external/libpng/include
+${PROJECT_SOURCE_DIR}/Thirdparty/Pangolin/external/zlib/include
 )
-
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 add_library(${PROJECT_NAME}
 src/System.cc
@@ -77,21 +71,24 @@ src/Initializer.cc
 src/Viewer.cc
 )
 
-LINK_DIRECTORIES(
-${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib
-${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib
-${PROJECT_SOURCE_DIR}/Thirdparty/Pangolin/lib
-${PROJECT_SOURCE_DIR}/lib)
-
 target_link_libraries(
 ${PROJECT_NAME}
 ${OpenCV_LIBS}
-${EIGEN3_LIBS}
-${Pangolin_LIBRARIES}
-DBoW2.lib
-g2o.lib
-pangolin.lib
+${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/DBoW2.lib
+${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/g2o.lib
+${OPENGL_LIBRARIES}
+${PROJECT_SOURCE_DIR}/Thirdparty/Pangolin/lib/pangolin.lib
+${PROJECT_SOURCE_DIR}/Thirdparty/Pangolin/external/glew/lib/glew.lib
+${PROJECT_SOURCE_DIR}/Thirdparty/Pangolin/external/libjpeg/lib/jpeg.lib
+${PROJECT_SOURCE_DIR}/Thirdparty/Pangolin/external/libpng/lib/libpng16_static.lib
+${PROJECT_SOURCE_DIR}/Thirdparty/Pangolin/external/zlib/lib/zlibstatic.lib
 )
+
+set_target_properties(${PROJECT_NAME}
+	PROPERTIES 
+	ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib
+	ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib
+	ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/lib)
 
 # Build examples
 
@@ -111,7 +108,6 @@ add_executable(stereo_euroc
 Examples/Stereo/stereo_euroc.cc)
 target_link_libraries(stereo_euroc ${PROJECT_NAME})
 
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular)
 
 add_executable(mono_tum
@@ -126,3 +122,6 @@ add_executable(mono_euroc
 Examples/Monocular/mono_euroc.cc)
 target_link_libraries(mono_euroc ${PROJECT_NAME})
 
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/leadsense)
+add_subdirectory(leadsense)

@@ -17,8 +17,44 @@ Thirdparty/DBoW2/lib/
 Thirdparty/g2o/build/
 Thirdparty/g2o/config.h
 Thirdparty/g2o/lib/
+Thirdparty/Pangolin/include/pangolin/config.h
+Thirdparty/Pangolin/include/pangolin/pangolin_export.h
+Thirdparty/Pangolin/include/pangolin/video_drivers.h
+Thirdparty/Pangolin/external/glew
+Thirdparty/Pangolin/external/libjpeg
+Thirdparty/Pangolin/external/libpng
+Thirdparty/Pangolin/external/zlib
+leadsense/Release
 Vocabulary/ORBvoc.txt
 build/
 *~
 lib/
 
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app

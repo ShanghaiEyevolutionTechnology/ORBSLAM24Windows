@@ -7,7 +7,7 @@ if( BUILD_EXTERN_GLEW )
 #########################################################
 # GLEW
 #########################################################
-set(glew_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/glew")
+set(glew_PREFIX "${PANGOLIN_BASE_PATH}/external/glew")
 ExternalProject_Add( __glew
   PREFIX "${glew_PREFIX}"
   GIT_REPOSITORY https://github.com/Perlmint/glew-cmake.git
@@ -46,7 +46,7 @@ if( BUILD_EXTERN_LIBPNG )
 # zlib
 #########################################################
 
-set(zlib_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/zlib")
+set(zlib_PREFIX "${PANGOLIN_BASE_PATH}/external/zlib")
 ExternalProject_Add( __zlib
   PREFIX "${zlib_PREFIX}"
   GIT_REPOSITORY https://github.com/madler/zlib.git
@@ -70,7 +70,7 @@ set_target_properties(_zlib PROPERTIES
 # libpng
 #########################################################
 
-set(libpng_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libpng")
+set(libpng_PREFIX "${PANGOLIN_BASE_PATH}/external/libpng")
 ExternalProject_Add( __libpng
   PREFIX "${libpng_PREFIX}"
   GIT_REPOSITORY https://github.com/glennrp/libpng.git
@@ -117,7 +117,7 @@ if( BUILD_EXTERN_LIBJPEG )
 # libjpg
 #########################################################
 
-set(libjpeg_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libjpeg")
+set(libjpeg_PREFIX "${PANGOLIN_BASE_PATH}/external/libjpeg")
 ExternalProject_Add( __libjpeg
   PREFIX "${libjpeg_PREFIX}"
   GIT_REPOSITORY https://github.com/LuaDist/libjpeg.git

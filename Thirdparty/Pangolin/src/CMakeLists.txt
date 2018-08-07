@@ -477,9 +477,15 @@ include_directories( ${LIB_INC_DIR} )
 include_directories( ${USER_INC} )
 include_directories( ${INTERNAL_INC} )
 
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+#set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 add_library(${LIBRARY_NAME} ${SOURCES} ${HEADERS})
 target_link_libraries(${LIBRARY_NAME} ${LINK_LIBS})
+
+set_target_properties(${LIBRARY_NAME} 
+	PROPERTIES 
+	ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib
+	ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib
+	ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/lib)
 
 ## Generate symbol export helper header on MSVC
 IF(MSVC)
@@ -488,10 +494,11 @@ IF(MSVC)
     GENERATE_EXPORT_HEADER( ${LIBRARY_NAME}
         BASE_NAME ${LIBRARY_NAME_CAPS}
         EXPORT_MACRO_NAME ${LIBRARY_NAME_CAPS}_EXPORT
-        EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/include/${LIBRARY_NAME}/${LIBRARY_NAME}_export.h"
+        EXPORT_FILE_NAME "${CMAKE_CURRENT_SOURCE_DIR}/../include/pangolin/${LIBRARY_NAME}_export.h"
         STATIC_DEFINE ${LIBRARY_NAME_CAPS}_BUILT_AS_STATIC
     )
 ENDIF()
+
 
 ## Set Special Compiler flags
 if(MSVC)
@@ -505,7 +512,7 @@ endif()
 
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/config.h.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/include/${LIBRARY_NAME}/config.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../include/pangolin/config.h"
 )
 
 #######################################################
@@ -513,7 +520,7 @@ configure_file(
 ## This loads video driver factories based on cmake configuration
 
 CreateMethodCallFile(
-    "${CMAKE_CURRENT_BINARY_DIR}/include/${LIBRARY_NAME}/video_drivers.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../include/pangolin/video_drivers.h"
     "pangolin" "LoadBuiltInVideoDrivers" "${VIDEO_FACTORY_REG}"
 )
 
